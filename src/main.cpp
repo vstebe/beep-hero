@@ -36,7 +36,7 @@ int main(int argc, char ** argv)
         native = true;
 
     sf::Font font;
-    font.loadFromFile("Niconne-Regular.ttf");
+    font.loadFromFile("./data/Niconne-Regular.ttf");
     sf::Text text("abc", font);
     text.setPosition(0,0);
     while(window.isOpen()) {
