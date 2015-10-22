@@ -9,6 +9,7 @@ set(SRC_LIST
     ./src/sheetparser.cpp
     ./src/note.cpp
     ./src/soundsystem.cpp
+    ./src/utils.cpp
     ./src/config.h
     )
 
