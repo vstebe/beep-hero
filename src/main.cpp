@@ -28,6 +28,10 @@ int charToFreq(char c) {
 
 }
 
+char codeToChar(sf::Keyboard::Key k) {
+    return k+'a';
+}
+
 int main(int argc, char ** argv)
 {
     sf::RenderWindow window(sf::VideoMode(640, 480), "SFML window with OpenGL", sf::Style::Default);
@@ -54,18 +58,19 @@ int main(int argc, char ** argv)
                    if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))
                        window.close();
 
-                   if(event.type == sf::Event::TextEntered) {
+                   if(event.type == sf::Event::KeyPressed) {
                        int freq;
                        if(native)
                         freq = ((char)event.text.unicode)*10;
                        else
-                        freq = charToFreq((char)event.text.unicode);
+                        freq = charToFreq(codeToChar(event.key.code));
                        Beeper::get().startBeep(freq);
                        text.setString(std::to_string(freq) + "Hz");
                    }
 
                    if(event.type == sf::Event::KeyReleased) {
-                       Beeper::get().stopBeep();
+                       int freq = charToFreq(codeToChar(event.key.code));
+                       Beeper::get().stopBeep(freq);
                    }
 
                }

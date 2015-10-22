@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <iostream>
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <linux/kd.h>
@@ -39,12 +40,19 @@ void Beeper::startBeep(float frequency) {
         _currentFrequency = frequency;
 
 
-
         /* Beep */
         if(ioctl(_consoleFd, KIOCSOUND, (int)(CLOCK_TICK_RATE/frequency)) < 0) {
           printf("\a");  /* Output the only beep we can, in an effort to fall back on usefulness */
           perror("ioctl");
         }
+
+
+    }
+}
+
+void Beeper::stopBeep(float frequency) {
+    if(_isBeeping && _currentFrequency == frequency) {
+        stopBeep();
     }
 }
 

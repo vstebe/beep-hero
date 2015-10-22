@@ -24,9 +24,16 @@ public:
     void startBeep(float frequency);
 
     /**
-     * @brief Stops the beeper
+     * @brief Stops the beeper only if the current frequency is being played
+     * @param frequency the frequency to stop
+     */
+    void stopBeep(float frequency);
+
+    /**
+     * @brief Stops the beeper whatever the current frequency
      */
     void stopBeep();
+
 
 
 
