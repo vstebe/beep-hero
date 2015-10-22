@@ -3,7 +3,8 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #define LA_REF 440
-#include "beep.h"
+#include "beeper.h"
+#include <string.h>
 
 using namespace std;
 
@@ -59,12 +60,12 @@ int main(int argc, char ** argv)
                         freq = ((char)event.text.unicode)*10;
                        else
                         freq = charToFreq((char)event.text.unicode);
-                       startBeep(freq);
+                       Beeper::get().startBeep(freq);
                        text.setString(std::to_string(freq) + "Hz");
                    }
 
                    if(event.type == sf::Event::KeyReleased) {
-                       stopBeep();
+                       Beeper::get().stopBeep();
                    }
 
                }
@@ -72,7 +73,7 @@ int main(int argc, char ** argv)
         window.display();
     }
 
-    stopBeep();
+    Beeper::get().stopBeep();
     return 0;
 }
 
