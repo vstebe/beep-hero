@@ -11,55 +11,58 @@ SoundSystem::SoundSystem(sf::Window * window) :
 
 }
 
+void SoundSystem::setWindow(sf::Window *window) {
+    _window = window;
+}
 
 void SoundSystem::start() {
     _thread.launch();
 }
 
-SimpleNote SoundSystem::map(const sf::Keyboard::Key &code) {
+RawNote SoundSystem::map(const sf::Keyboard::Key &code) {
 
     switch (code) {
             case sf::Keyboard::Key::A:
-                return SimpleNote(SOL_D, -1);
+                return RawNote(SOL_D, -1);
         case sf::Keyboard::Key::Q:
-            return SimpleNote(LA, -1);
+            return RawNote(LA, -1);
             case sf::Keyboard::Key::Z:
-                return SimpleNote(LA_D, -1);
+                return RawNote(LA_D, -1);
         case sf::Keyboard::Key::S:
-            return SimpleNote(SI, -1);
+            return RawNote(SI, -1);
 
         case sf::Keyboard::Key::D:
-            return SimpleNote(DO, 0);
+            return RawNote(DO, 0);
             case sf::Keyboard::Key::R:
-                return SimpleNote(DO_D, 0);
+                return RawNote(DO_D, 0);
         case sf::Keyboard::Key::F:
-            return SimpleNote(RE, 0);
+            return RawNote(RE, 0);
             case sf::Keyboard::Key::T:
-                return SimpleNote(RE_D, 0);
+                return RawNote(RE_D, 0);
         case sf::Keyboard::Key::G:
-            return SimpleNote(MI, 0);
+            return RawNote(MI, 0);
         case sf::Keyboard::Key::H:
-            return SimpleNote(FA, 0);
+            return RawNote(FA, 0);
             case sf::Keyboard::Key::U:
-                return SimpleNote(FA_D, 0);
+                return RawNote(FA_D, 0);
         case sf::Keyboard::Key::J:
-            return SimpleNote(SOL, 0);
+            return RawNote(SOL, 0);
             case sf::Keyboard::Key::I:
-                return SimpleNote(SOL_D, 0);
+                return RawNote(SOL_D, 0);
         case sf::Keyboard::Key::K:
-            return SimpleNote(LA, 0);
+            return RawNote(LA, 0);
             case sf::Keyboard::Key::O:
-                return SimpleNote(LA_D, 0);
+                return RawNote(LA_D, 0);
         case sf::Keyboard::Key::L:
-            return SimpleNote(SI, 0);
+            return RawNote(SI, 0);
 
     case sf::Keyboard::Key::M:
-        return SimpleNote(DO, 1);
+        return RawNote(DO, 1);
     //case sf::Keyboard::Key::D:
-     //   return SimpleNote(DO, 0);
+     //   return RawNote(DO, 0);
 
         default:
-            return SimpleNote(SILENCE,0);
+            return RawNote(SILENCE,0);
     }
 }
 
@@ -69,21 +72,22 @@ void SoundSystem::mainLoop() {
     //For each event
     while(_window->waitEvent(event)) {
         if(event.type == sf::Event::KeyPressed) {
-            SimpleNote note = map(event.key.code);
-            float frequency = _currentOctave + note.offsetOctave;
+            RawNote note = map(event.key.code);
+            float octave = _currentOctave + note.getOctave();
+            float frequency = getFrequency(note.getTypeNote(), octave);
             Beeper::get().startBeep(frequency);
         } else if(event.type == sf::Event::KeyReleased) {
-            SimpleNote note = map(event.key.code);
-            float frequency = _currentOctave + note.offsetOctave;
+            RawNote note = map(event.key.code);
+            float octave = _currentOctave + note.getOctave();
+            float frequency = getFrequency(note.getTypeNote(), octave);
             Beeper::get().stopBeep(frequency);
         }
     }
 }
 
 float SoundSystem::getFrequency(TYPE_NOTE note, int octave) {
-    int diffOctave =  octave - OCTAVE_REF;
     int diffHalfTones = note - LA;
-    diffHalfTones += diffOctave * 12;
+    diffHalfTones += octave * 12;
 
     float freq = LA_REF * pow(2, ((float)diffHalfTones) / 12.f);
     return freq;

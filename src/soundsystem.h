@@ -3,17 +3,7 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
-#include "config.h"
-/**
- * @brief Represents a note (ex Do) with a offset octave. (Do -1) (Do 0) etc
- */
-class SimpleNote {
-public:
-    TYPE_NOTE note;
-    int offsetOctave;
-    SimpleNote(TYPE_NOTE n,int o) : note(n), offsetOctave(o) {}
-};
-
+#include "rawnote.h"
 
 class SoundSystem
 {
@@ -24,7 +14,12 @@ public:
      * @brief Constructs the SoundSystem
      * @param window the SFML window to use for events
      */
-    SoundSystem(sf::Window * window);
+    SoundSystem(sf::Window * window = NULL);
+
+    /**
+     * @brief Set to window to use for inputs
+     */
+    void setWindow(sf::Window * window);
 
     /**
      * @brief Start the SoundSystem by starting the internal thread
@@ -41,7 +36,7 @@ public:
      * @param code key code
      * @return note type (DO, RE etc) with octave offset
      */
-    SimpleNote map(const sf::Keyboard::Key& code);
+    RawNote map(const sf::Keyboard::Key& code);
 
     /**
      * @brief Compute the frequency with the note and octave

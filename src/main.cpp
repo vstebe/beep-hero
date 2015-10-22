@@ -10,7 +10,6 @@
 using namespace std;
 
 
-
 int main(int argc, char ** argv)
 {
     sf::RenderWindow window(sf::VideoMode(640, 480), "BeepHero", sf::Style::Default);

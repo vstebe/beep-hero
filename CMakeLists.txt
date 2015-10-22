@@ -8,6 +8,7 @@ set(SRC_LIST
     ./src/sheet.cpp
     ./src/sheetparser.cpp
     ./src/note.cpp
+    ./src/rawnote.cpp
     ./src/soundsystem.cpp
     ./src/utils.cpp
     ./src/config.h
