@@ -5,7 +5,6 @@
 
 SoundSystem::SoundSystem(sf::Window * window) :
     _window(window),
-    _thread(&SoundSystem::mainLoop, this),
     _currentOctave(3)
 {
 
@@ -13,10 +12,6 @@ SoundSystem::SoundSystem(sf::Window * window) :
 
 void SoundSystem::setWindow(sf::Window *window) {
     _window = window;
-}
-
-void SoundSystem::start() {
-    _thread.launch();
 }
 
 RawNote SoundSystem::map(const sf::Keyboard::Key &code) {
@@ -66,18 +61,48 @@ RawNote SoundSystem::map(const sf::Keyboard::Key &code) {
     }
 }
 
-void SoundSystem::mainLoop() {
-    sf::Event event;
+void SoundSystem::setOctaveByKey(const sf::Keyboard::Key &key) {
+    switch(key) {
+        case sf::Keyboard::F1:
+            _currentOctave = 0;
+        break;
+        case sf::Keyboard::F2:
+            _currentOctave = 1;
+        break;
+        case sf::Keyboard::F3:
+            _currentOctave = 2;
+        break;
+        case sf::Keyboard::F4:
+            _currentOctave = 3;
+        break;
+        case sf::Keyboard::F5:
+            _currentOctave = 4;
+        break;
+        case sf::Keyboard::F6:
+            _currentOctave = 5;
+        break;
+    }
+}
 
-    //For each event
-    while(_window->waitEvent(event)) {
-        if(event.type == sf::Event::KeyPressed) {
+void SoundSystem::input(const sf::Event& event) {
+    if(event.type == sf::Event::KeyPressed) {
+
+        if(event.key.code >= sf::Keyboard::F1 && event.key.code <= sf::Keyboard::F6) {
+            setOctaveByKey(event.key.code);
+        } else {
             RawNote note = map(event.key.code);
-            float octave = _currentOctave + note.getOctave();
-            float frequency = getFrequency(note.getTypeNote(), octave);
-            Beeper::get().startBeep(frequency);
-        } else if(event.type == sf::Event::KeyReleased) {
-            RawNote note = map(event.key.code);
+            if(note.getTypeNote() != SILENCE) {
+                //Start the beep
+                float octave = _currentOctave + note.getOctave();
+                float frequency = getFrequency(note.getTypeNote(), octave);
+                Beeper::get().startBeep(frequency);
+            }
+        }
+    } else if(event.type == sf::Event::KeyReleased) {
+
+        RawNote note = map(event.key.code);
+        if(note.getTypeNote() != SILENCE) {
+            //Stop the beep
             float octave = _currentOctave + note.getOctave();
             float frequency = getFrequency(note.getTypeNote(), octave);
             Beeper::get().stopBeep(frequency);

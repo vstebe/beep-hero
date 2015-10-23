@@ -15,15 +15,17 @@ int main(int argc, char ** argv)
     sf::RenderWindow window(sf::VideoMode(640, 480), "BeepHero", sf::Style::Default);
 
     SoundSystem sys(&window);
-    sys.mainLoop();
 
+    sf::Event event;
 
     window.setFramerateLimit(60);
     //Render
     while(true) {
-
-        window.clear();
-        window.display();
+        if(window.pollEvent(event)) {
+            sys.input(event);
+            window.clear();
+            window.display();
+        }
     }
 
 

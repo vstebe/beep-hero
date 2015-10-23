@@ -22,14 +22,10 @@ public:
     void setWindow(sf::Window * window);
 
     /**
-     * @brief Start the SoundSystem by starting the internal thread
+     * @brief Handle event
      */
-    void start();
+    void input(const sf::Event& event);
 
-    /**
-     * @brief Main loop of the Sound System. Handle events
-     */
-    void mainLoop();
 
     /**
      * @brief Map the key code to note type (ex key E -> Do)
@@ -46,9 +42,14 @@ public:
      */
     float getFrequency(TYPE_NOTE note, int octave);
 
+    /**
+     * @brief Set the current octave according to the given keybord key
+     * @param key 1 -> Octave 1,   2 -> Octave 2 etc...
+     */
+    void setOctaveByKey(const sf::Keyboard::Key& key);
+
 private:
     sf::Window * _window;
-    sf::Thread _thread;
     int _currentOctave;
 };
 

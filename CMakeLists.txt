@@ -11,6 +11,7 @@ set(SRC_LIST
     ./src/rawnote.cpp
     ./src/soundsystem.cpp
     ./src/utils.cpp
+    ./src/rendering.cpp
     ./src/config.h
     )
 
