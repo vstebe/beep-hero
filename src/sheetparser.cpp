@@ -16,7 +16,7 @@ Sheet SheetParser::getSheet()
     int tempo;
     std::vector <Note> vec;
 
-    std::ifstream _file("test.txt", std::ios::in);
+    std::ifstream _file(_fileName, std::ios::in);
     if(_file)
     {
             std::string line;  // déclaration d'une chaîne qui contiendra la ligne lue
@@ -77,10 +77,12 @@ Note SheetParser::getNote(std::string ligne)
     }
     else
     {
-       std::vector<std::string> liste = Utils::split(ligne, ":");
+       std::vector<std::string> liste = Utils::split(ligne, ':');
        TYPE_NOTE type;
        LENGTH length;
        int octave;
+
+        std::cout << liste.size() << std::endl;
 
        if (liste.size() == 3)
        {
@@ -111,7 +113,7 @@ Note SheetParser::getNote(std::string ligne)
            else if (liste[0] ==   "si" || liste[0] == "B" || liste[0] == "dob" || liste [0] == "Cb")
                 type=SI;
            else
-               std::cerr << "ERROR : " << numLigne << " : " << ligne;
+               std::cerr << "ERRORA : " << numLigne << " : " << ligne;
 
 
            if (liste[1] == "r")
@@ -139,10 +141,10 @@ Note SheetParser::getNote(std::string ligne)
            else if (liste[1] == "tc.")
                length=THIRTYSECOND_POINT;
            else
-               std::cerr << "ERROR : " << numLigne << " : " << ligne;
+               std::cerr << "ERRORB : " << numLigne << " : " << ligne;
        }
        else
-           std::cerr << "ERROR : " << numLigne << " : " << ligne;
+           std::cerr << "ERRORC : " << numLigne << " : " << ligne;
 
        return Note(length, type, octave);
     }

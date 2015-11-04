@@ -7,7 +7,7 @@ Note::Note(LENGTH length, TYPE_NOTE typeNote) : RawNote(typeNote), _length(lengt
 
 Note::Note() :  RawNote(), _length(QUARTER) {}
 
-LENGTH Note::getLength()
+LENGTH Note::getLength() const
 {
     return _length;
 }

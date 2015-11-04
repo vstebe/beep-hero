@@ -9,7 +9,7 @@ public:
     Note(LENGTH length, TYPE_NOTE typeNote, int octave);
     Note(LENGTH length, TYPE_NOTE typeNote);
     Note();
-    LENGTH getLength();
+    LENGTH getLength() const;
 
 private:
     LENGTH _length;

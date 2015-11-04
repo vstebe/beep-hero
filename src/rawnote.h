@@ -9,8 +9,8 @@ public:
     RawNote(TYPE_NOTE typeNote, int octave);
     RawNote(TYPE_NOTE typeNote);
     RawNote();
-    TYPE_NOTE getTypeNote();
-    int getOctave();
+    TYPE_NOTE getTypeNote() const;
+    int getOctave() const;
 
 protected:
     TYPE_NOTE _typeNote;

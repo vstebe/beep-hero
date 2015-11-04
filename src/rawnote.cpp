@@ -10,12 +10,12 @@ RawNote::RawNote() :  _typeNote(LA), _octave(3) {}
 
 
 
-TYPE_NOTE RawNote::getTypeNote()
+TYPE_NOTE RawNote::getTypeNote() const
 {
     return _typeNote;
 }
 
-int RawNote::getOctave()
+int RawNote::getOctave() const
 {
     return _octave;
 }
